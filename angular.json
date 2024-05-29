@@ -15,6 +15,7 @@
       "prefix": "app",
       "architect": {
         "build": {
+          "defaultConfiguration": "production",
           "builder": "@angular-builders/custom-webpack:browser",
           "options": {
             "customWebpackConfig": {
@@ -38,11 +39,6 @@
             "scripts": []
           },
           "configurations": {
-            "dev": {
-              "customWebpackConfig": {
-                "path": "./src/custom-webpack-dev.config.js"
-              }
-            },
             "production": {
               "optimization": {
                 "scripts": true,
@@ -52,7 +48,7 @@
                 },
                 "fonts": false
                },
-              "outputHashing": "all",
+              "outputHashing": "none",
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
