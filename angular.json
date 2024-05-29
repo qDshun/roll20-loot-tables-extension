@@ -72,40 +72,6 @@
             }
           }
         },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "roll20-loot-tables-extension:build"
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "roll20-loot-tables-extension:build:production"
-            }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "roll20-loot-tables-extension:build"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
-            "scripts": []
-          }
-        },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
@@ -118,24 +84,8 @@
               "**/node_modules/**"
             ]
           }
-        },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "roll20-loot-tables-extension:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "roll20-loot-tables-extension:serve:production"
-            }
-          }
         }
       }
     }
-  },
-  "defaultProject": "roll20-loot-tables-extension",
-  "cli": {
-    "analytics": "eed1f381-c6aa-4062-86a8-bd1c64bcacf3"
   }
 }

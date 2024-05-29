@@ -1,15 +1,11 @@
 {
   "name": "roll20-loot-tables-extension",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "build-background": "ng build roll20-loot-tables-extension:background --configuration production",
-    "build:content-script": "ng build roll20-loot-tables-extension:content-script --configuration production",
-    "build:extension": "npm run build && npm run build:background && npm run build:content-script && node post-build.js"
+    "watch": "ng build --watch --configuration development"
   },
   "private": true,
   "dependencies": {
