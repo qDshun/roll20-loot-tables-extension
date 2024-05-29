@@ -1,0 +1,9 @@
+{
+  "name": "Roll20 Loot Tables",
+  "version": "1.0",
+  "description": "Extension to enrich loot system to GMs",
+  "manifest_version": 3,
+  "action": {
+      "default_popup": "index.html"
+  }
+}
