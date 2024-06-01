@@ -31,7 +31,8 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/manifest.json"
+              "src/manifest.json",
+              "src/character-sheet-real-dark-mode.css"
             ],
             "styles": [
               "src/styles.scss"

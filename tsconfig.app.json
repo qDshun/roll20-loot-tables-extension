@@ -3,13 +3,14 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "types": []
+    "types": ["chrome"]
   },
   "files": [
     "src/main.ts",
     "src/background.ts",
     "src/content-script.ts",
-    "src/polyfills.ts"
+    "src/polyfills.ts",
+    "src/injected-script.ts"
   ],
   "include": [
     "src/**/*.d.ts"

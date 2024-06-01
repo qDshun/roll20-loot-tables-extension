@@ -1,0 +1,158 @@
+
+.charsheet {
+  --qdshun-primary: #702C91;
+  --qdshun-secondary: #A980BD;
+  --color-surface2: rgb(53, 53, 53)!important;
+  select {
+    background-color: var(--color-surface2)!important;
+    border-color: var(--qdshun-primary)!important;
+  }
+  .sheet-logo {
+    display: none!important;
+  }
+  input, textarea, select {
+    color: white!important;
+  }
+
+  .sheet-wrapper > span {
+    background-color: var(--qdshun-primary)!important;
+    color: var(--grayscale-dark-base)!important;
+  }
+
+  input.sheet-tab:checked + span {
+    background-color: var(--sheet-bg)!important;
+  }
+
+  span.sheet-checkbox::before {
+    color: var(--qdshun-primary)!important;
+  }
+
+  span.sheet-checkbox::before:hover {
+    color: var(--qdshun-secondary)!important;
+  }
+
+  .sheet-skills input.sheet-toggle-highlight[type="checkbox"]:checked ~ .sheet-row-stats, .sheet-skills input.sheet-toggle-highlight[type="checkbox"]:checked ~ .sheet-row-stats input:enabled, .charsheet .sheet-skills input.sheet-toggle-highlight[type="checkbox"]:checked ~ .sheet-row-details {
+    background: rgba(0, 0, 0, 0)!important;
+  }
+
+}
+
+.sheet-cell:has(.sheet-talent-checkbox + .sheet-popup span[data-i18n="language-talent-label"]) {
+  width: 100%!important;
+}
+
+.sheet-cell, .sheet-box {
+  input[type="checkbox"] {
+    appearance: none!important;
+    -webkit-appearance: none!important;
+    -moz-appearance: none!important;
+    border: 2px solid #702C91!important;
+    border-radius: 4px!important;
+    outline: none!important;
+    background-color: transparent!important;
+    cursor: pointer!important;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+  input[type="checkbox"]:checked:after {
+    content: '\2714' !important;
+    font-size: 18px !important;
+    position: absolute !important;
+    color: var(--qdshun-secondary)!important;
+  }
+}
+
+.sheet-box .repcontrol > button {
+  background-color: var(--qdshun-primary)!important;
+  text-shadow: none!important;
+  color: white!important;
+}
+
+.btn, .btn.btn-default {
+  ::before {
+    text-shadow: 0 1px 1px rgba(112, 44, 145, 0.75)!important;
+  }
+}
+
+button {
+  text-shadow: 0 1px 1px rgba(112, 44, 145, 0.75)!important;
+}
+
+.charsheet .sheet-update-alert .sheet-container label.sheet-show-content {
+  color: var(--qdshun-primary)!important;
+}
+
+.charsheet .sheet-items input.sheet-toggle-highlight[type="checkbox"]:checked ~ .sheet-row-stats, .charsheet .sheet-items input.sheet-toggle-highlight[type="checkbox"]:checked ~ .sheet-row-stats input:enabled, .charsheet .sheet-items input.sheet-toggle-highlight[type="checkbox"]:checked ~ .sheet-row-details {
+  background-color: rgba(255, 255, 255, 0.1)!important;
+}
+
+.sheet-col3-fright-label span {
+  color: white!important;
+}
+
+.charsheet input[type="checkbox"] {
+  --input-bg: rgba(0, 0, 0, 0)!important;
+  border-color: rgb(169, 128, 189)!important;
+  border: 0;
+  border-radius: var(--el-checkbox-border-radius);
+}
+
+.charsheet .sheet-color-setting-4:checked ~  .sheet-wrapper,.sheet-rolltemplate-color-setting-4 {
+  --main-text:#CED2DB!important;
+  --highlight-text:#A980BD!important;
+
+  --secondary-highlight: #A980BD!important;
+  --secondary-highlight-color:#A980BD!important;
+
+  --sheet-bg: #1F1F1F!important;
+  --header-bg:#0C0C0C!important;
+  --tabbed-header-bg:#1F1F1F!important;
+  --input-bg: rgb(53, 53, 53)!important;
+
+  --point-label-text:#8b0000!important;
+  --border-color:#702C91!important;
+  --input-disabled-bg:rgb(53, 53, 53)!important;
+  --header-text:#A980BD!important;
+
+  .sheet-result {
+    --main-text:white!important;
+  }
+
+}
+
+.sheet-darkmode .sheetform{
+  background-color: var(--sheet-bg)!important;
+}
+
+.sheet-rolltemplate-color-setting-4{
+  --row-bg:#5e5e5e!important;
+  --odd-row-bg:#3f3f3f!important;
+}
+
+/* Layout fixes */
+.charsheet .sheet-row.sheet-roll-modifiers {
+  justify-content: space-around;
+}
+
+.sheet-techniques-revised textarea[name="attr_technique_custom_roll_modifier_reason"]{
+  height: fit-content!important;
+}
+
+.charsheet .sheet-wrapper button[type=roll][name=roll_useitem]::before {
+  color: var(--qdshun-secondary)!important;
+}
+
+.charsheet .sheet-box button[type="roll"], .charsheet .sheet-box button[type="action"] {
+    width: auto!important;
+}
+
+.charsheet .sheet-roll-modifiers input[type="checkbox"], .charsheet .sheet-roll-modifiers-table input[type="checkbox"] {
+  width: 20px!important;
+}
+
+#dialog-window > div > ul a {
+  text-decoration: none!important;
+}
+/* Layout fixes end*/
