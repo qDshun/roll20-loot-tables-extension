@@ -54,6 +54,7 @@
     display: inline-flex;
     justify-content: center;
     align-items: center;
+    min-width: 15px!important;
 }
 
   input[type="checkbox"]:checked:after {
@@ -156,3 +157,31 @@ button {
   text-decoration: none!important;
 }
 /* Layout fixes end*/
+
+.dd-item .playerdots {
+  right: 24px !important;
+}
+
+/* IF CHARACTER LIST ICONS ARE NEEDED
+.journalitem.dd-item.character.ui-draggable div.sourcefooter::after {
+  content: '\2714' !important;
+  font-size: 18px !important;
+  color: var(--qdshun-secondary)!important;
+}
+
+.journalitem.dd-item.character.ui-draggable .dd-content::after {
+  content: '\2714' !important;
+  font-size: 18px !important;
+  color: var(--qdshun-secondary)!important;
+} */
+
+.cdk-overlay-pane {
+  position: absolute !important;
+}
+
+.cdk-overlay-connected-position-bounding-box {
+
+  position: fixed!important;
+  display: flex!important;
+  z-index: 99999999;
+}
