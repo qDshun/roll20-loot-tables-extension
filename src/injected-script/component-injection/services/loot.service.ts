@@ -1,20 +1,18 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, ReplaySubject } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { BehaviorSubject, ReplaySubject, switchMap } from 'rxjs';
+import { ApiService } from './api.service';
+import { injectFromGlobalContext } from '../component-injector';
+import { IdentityService } from './identity.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LootService {
-  private selectedCharacterId = '';
   private lootTableElement!: HTMLElement;
-  private selectedCharacterId$ = new BehaviorSubject("");
 
+  public selectedCharacterId$ = new BehaviorSubject<string>("");
   public angularReady$ = new ReplaySubject<void>();
   constructor() { }
-
-  test(){
-    console.log('variable', this.lootTableElement);
-  }
 
   saveLootTableRef(lootTableElement: HTMLElement) {
     this.lootTableElement = lootTableElement;

@@ -6,7 +6,7 @@ export interface ServerResponse {
 
 export type ServerResponseType = 'connect' | 'data' | 'unknown';
 export type DataResponseSubtype = 'request-response' | 'path-response' | 'unknown';
-export type PathResponseSubtype = 'characters' | 'handouts' | 'unknown';
+export type PathResponseSubtype = 'characters' | 'handouts' | 'character-details' | 'handout-details' |  'unknown';
 
 export interface DataServerResponse extends ServerResponse {
   subtype: DataResponseSubtype;
@@ -25,6 +25,22 @@ export interface PathResponse extends DataServerResponse {
   pathData: any;
 }
 
+export interface HandoutDetailsResponse extends PathResponse {
+  pathSubtype: 'handout-details',
+  text:  string;
+}
+
+export interface CharacterDetailsResponse extends PathResponse {
+  pathSubtype: 'character-details',
+  values:  ResponseDictionary<FieldResponse>;
+}
+
+export interface FieldResponse {
+  id: string;
+  name: string;
+  current: string;
+}
+
 export interface CharactersResponse extends PathResponse {
   pathSubtype: 'characters',
   characters:  ResponseDictionary<Character>;
@@ -36,7 +52,7 @@ export interface HandoutsResponse extends PathResponse {
 }
 
 export interface ResponseDictionary<T> {
-  [characterId: string]: T;
+  [id: string]: T;
 }
 
 export interface Handout {

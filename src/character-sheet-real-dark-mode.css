@@ -185,3 +185,9 @@ button {
   display: flex!important;
   z-index: 99999999;
 }
+
+.userscript-qdshun-notes-paragraph {
+  border: 1px solid white!important;
+  border-radius: 6px!important;
+  padding: 6px!important;
+}

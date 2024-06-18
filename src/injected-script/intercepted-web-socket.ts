@@ -3,8 +3,12 @@ import { getInjectorRef, injectFromGlobalContext, injectLootTableDropdown } from
 import { ResponseParserService } from "./firebase-server/response-parser.service";
 import 'zone.js';
 import { LootService } from "./component-injection/services/loot.service";
-import { ReplaySubject, take } from "rxjs";
+import { Observable, ReplaySubject, take } from "rxjs";
 import { StateService } from "./firebase-server/state.service";
+import { ItemService } from "./item-creation/item.service";
+import { getItemRequests$ } from "../injected-script";
+import { InventoryItem } from "./item-creation/item.model";
+import { CharacterDetailsResponse, DataServerResponse, HandoutDetailsResponse, RequestResponse } from "./firebase-server/types";
 
 
 export class InterceptedWebSocket extends window.WebSocket {
@@ -12,7 +16,6 @@ export class InterceptedWebSocket extends window.WebSocket {
   private customRequestId = 100000;
   private jsonPartitial = '';
   private responseParser!: ResponseParserService;
-  private stateService: StateService = new StateService();
   websocketType: undefined | 'Firebase' | 'WebRTC' = undefined;
   lastSendFirebaseMessageId = 0;
 
@@ -21,11 +24,16 @@ export class InterceptedWebSocket extends window.WebSocket {
     this.websocketType = this.saveWebsocketType(url, this);
     if (this.websocketType != 'Firebase')
       return;
-    console.log('Starting initing angular context');
+    console.log('Starting initing angular context')
+    ;
+    const stateService = new StateService();
+    this.responseParser = new ResponseParserService(this, stateService);
+    const itemService = new ItemService(this, stateService);
 
-    this.responseParser = new ResponseParserService(this, this.stateService);
-    this.initAngularAndNotifyInjectedScript();
-
+    (window as any).getCharacterData = (characterId: string) => itemService.requestCharacterData(characterId);
+    (window as any).getHandoutData = (handoutId: string) => itemService.requestHandoutData(handoutId);
+    this.initAngularAndNotifyInjectedScript(stateService);
+    this.startProcessingItemRequests(itemService);
     this.addEventListener('message', (event) => {
       if (this.websocketType != 'Firebase')
         return;
@@ -50,7 +58,6 @@ export class InterceptedWebSocket extends window.WebSocket {
       if (this.websocketType != 'Firebase'){
         throw new Error("Only firebase socket is supported for now");
       }
-
       this.send(data)
 
       setTimeout(() => {
@@ -93,18 +100,36 @@ export class InterceptedWebSocket extends window.WebSocket {
   private onMessageReceived(event: MessageEvent<any>){
     const parsed: object | null = this.tryParseMessage(event);
     if (parsed) {
-      this.responseParser.processFirebaseResponse(parsed);
+      const serverReponse = this.responseParser.processFirebaseResponse(parsed);
+      if ((serverReponse as DataServerResponse)?.subtype == 'request-response'){
+        const requestResponse = (serverReponse as RequestResponse)
+        const pendingRequest = this.pendingRequests.get(requestResponse?.requestId);
+        pendingRequest?.resolve(serverReponse);
+      }
     }
   }
 
-  private initAngularAndNotifyInjectedScript() {
+  private initAngularAndNotifyInjectedScript(stateService: StateService) {
     injectLootTableDropdown('body').then(() => {
-      console.log('injecting done!')
-      this.stateService.initFinished$.pipe(
+      stateService.initFinished$.pipe(
         take(1)
       )
       .subscribe(() => ((window as any).initReady as ReplaySubject<void>).next())
     });
   }
+
+  private startProcessingItemRequests(itemService: ItemService) {
+    getItemRequests$().subscribe(request => {
+      itemService.saveItem(request)
+    })
+
+  }
 }
 
+export function getCharacterData(characterId: string): Observable<CharacterDetailsResponse>{
+  return (window as any).getCharacterData(characterId);
+}
+
+export function getHandoutData(handoutId: string): Observable<HandoutDetailsResponse>{
+  return (window as any).getHandoutData(handoutId);
+}

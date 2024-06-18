@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { ReplaySubject, debounceTime, map, share, switchMap, take } from "rxjs";
-import { Character, Handout } from "./types";
+import { ReplaySubject, Subject, debounceTime, map, share, switchMap, take } from "rxjs";
+import { Character, CharacterDetailsResponse, Handout, HandoutDetailsResponse } from "./types";
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +21,9 @@ export class StateService {
   private _handouts$ = new ReplaySubject<Handout[]>();
   public handouts$ = this._handouts$.asObservable();
 
+  public characterDetailsResponse$ = new Subject<CharacterDetailsResponse>();
+  public handoutDetailsResponse$ = new Subject<HandoutDetailsResponse>();
+
   public initFinished$ = this.campaignId$.pipe(
     switchMap(() =>
       this.responses$.pipe(
@@ -35,15 +38,25 @@ export class StateService {
   updateCharacters(characters: Character[]){
     this.characters = characters;
     this._characters$.next(characters);
+    (window as any).characters = characters;
   }
 
   updateHandouts(handouts: Handout[]){
     this.handouts = handouts;
     this._handouts$.next(handouts);
+    (window as any).handouts = handouts;
   }
 
   updateCampaignId(campaignId: string){
     this.campaignId = campaignId;
     this._campaignId$.next(campaignId);
   }
+}
+
+export function isCharacter(id: string){
+  return (window as any).characters.findIndex((c: any) => c.id == id) != -1;
+}
+
+export function isHandout(id: string){
+  return (window as any).handouts.findIndex((c: any) => c.id == id) != -1;
 }

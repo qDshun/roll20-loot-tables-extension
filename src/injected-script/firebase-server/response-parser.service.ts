@@ -1,7 +1,7 @@
 
 import { InterceptedWebSocket } from "../intercepted-web-socket";
 import { StateService } from "./state.service";
-import { Character, CharactersResponse, DataServerResponse, HandoutsResponse, PathResponse, RequestResponse, ResponseDictionary, ServerResponse, ServerResponseType } from "./types";
+import { Character, CharacterDetailsResponse, CharactersResponse, DataServerResponse, HandoutDetailsResponse, HandoutsResponse, PathResponse, RequestResponse, ResponseDictionary, ServerResponse, ServerResponseType } from "./types";
 
 export class ResponseParserService {
   constructor(private firebaseWebSocket: InterceptedWebSocket, private stateService: StateService){
@@ -25,19 +25,31 @@ export class ResponseParserService {
       if (this.isPathResponse(dataResponse)){
         const pathResponse = this.mapPathResponse(dataResponse);
         if (this.isHandoutsResponse(pathResponse)){
-          var handoutsResponse =  this.mapHandoutsReponse(pathResponse);
+          const handoutsResponse =  this.mapHandoutsReponse(pathResponse);
           //campaign-14599195-g5T9BBu1183YbNbSw16wSg/handouts
           this.stateService.updateHandouts(Object.values(handoutsResponse.handouts));
           this.stateService.updateCampaignId(handoutsResponse.path.split('/')[0]);
           return handoutsResponse;
         }
         if (this.isCharactersResponse(pathResponse)){
-          var charactersResponse = this.mapCharactersReponse(pathResponse);
+          const charactersResponse = this.mapCharactersReponse(pathResponse);
           //campaign-14599195-g5T9BBu1183YbNbSw16wSg/characters
           this.stateService.updateCampaignId(charactersResponse.path.split('/')[0]);
           this.stateService.updateCharacters(Object.values(charactersResponse.characters))
           return charactersResponse;
         }
+
+        if (this.isCharacterDetailsResponse(pathResponse)){
+          const characterResponse = this.mapCharacterDetailsReponse(pathResponse);
+          this.stateService.characterDetailsResponse$.next(characterResponse);
+
+        }
+        if (this.isHandoutDetailsResponse(pathResponse)){
+          const handoutResponse = this.mapHandoutDetailsReponse(pathResponse);
+          this.stateService.handoutDetailsResponse$.next(handoutResponse);
+        }
+
+
         return pathResponse;
       }
 
@@ -50,6 +62,24 @@ export class ResponseParserService {
 
   isHandoutsResponse  = (response: PathResponse) => response.path.indexOf('/handouts') != -1;
   isCharactersResponse = (response: PathResponse) => response.path.indexOf('/characters') != -1;
+  isCharacterDetailsResponse = (response: PathResponse) => response.path.indexOf('/char-attribs') != -1 && response.path.split('char/')[1].indexOf('/') == -1;
+  isHandoutDetailsResponse = (response: PathResponse) => response.path.indexOf('/hand-blobs') != -1;
+
+  private mapHandoutDetailsReponse(response: PathResponse): HandoutDetailsResponse {
+    return {
+      ...response,
+      pathSubtype: 'handout-details',
+      text: unescape(response.pathData)
+    }
+  }
+
+  private mapCharacterDetailsReponse(response: PathResponse): CharacterDetailsResponse {
+    return {
+      ...response,
+      pathSubtype: 'character-details',
+      values: response.pathData
+    }
+  }
 
   private mapCharactersReponse(response: PathResponse): CharactersResponse {
     return {

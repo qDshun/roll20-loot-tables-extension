@@ -3,7 +3,7 @@
   "version": "1.0",
   "description": "Extension to enrich loot system to GMs",
   "manifest_version": 3,
-  "permissions": ["scripting", "activeTab", "tabs"],
+  "permissions": ["scripting", "activeTab", "tabs", "storage"],
   "action": {
       "default_popup": "index.html"
   },
@@ -23,7 +23,7 @@
     }
   ],
   "web_accessible_resources": [{
-    "resources": ["injected-script.js", "character-sheet-real-dark-mode.css"],
+    "resources": ["injected-script.js", "character-sheet-real-dark-mode.css", "https://fonts.googleapis.com/icon?family=Material+Icons"],
     "matches": ["<all_urls>"]
 }]
 }
